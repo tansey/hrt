@@ -29,8 +29,11 @@ def run(trial):
     models = [get_model(info, X, y, folds, False) for info in infos]
 
     # Generate a null sample for each feature
+    print('\tCreating knockoffs')
     X_null = np.zeros_like(X)
     for j in range(X.shape[1]):
+        if feature % 10 == 0:
+            print('\tFeature {}'.format(feature))
         # Load the conditional model for this feature
         conditional = get_conditional(trial, j)
 
