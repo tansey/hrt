@@ -2,7 +2,7 @@ import os
 import numpy as np
 import torch
 from sim_liang import load_or_create_dataset
-from sim_predictors import ModelInfo, get_model, get_conditional, CvModel, PLSPredictor
+from sim_predictors import ModelInfo, get_model, get_conditional, CvModel, PLSPredictor, fit_svr
 from pyhrt.knockoffs import empirical_risk_knockoffs
 
 
@@ -21,7 +21,7 @@ def run(trial):
              ModelInfo(trial, 'Elastic Net', None, 'enet'),
              ModelInfo(trial, 'Bayesian Ridge', None, 'bridge'),
              ModelInfo(trial, 'Polynomial Kernel Ridge', None, 'kridge'),
-             ModelInfo(trial, 'RBF Support Vector', None, 'svr'),
+             ModelInfo(trial, 'RBF Support Vector', fit_svr, 'svr'),
              ModelInfo(trial, 'Random Forest', None, 'rf') 
                ]
 
