@@ -16,13 +16,13 @@ def run(trial):
     X, y, truth = load_or_create_dataset(trial, N, P, S)
     np.random.seed(trial*P)
 
-    infos = [ModelInfo(trial, 'Partial Least Squares', fit_pls, 'pls'),
-             ModelInfo(trial, 'Lasso', fit_lasso_cv, 'lasso'),
-             ModelInfo(trial, 'Elastic Net', fit_elastic_net_cv, 'enet'),
-             ModelInfo(trial, 'Bayesian Ridge', fit_bridge, 'bridge'),
-             ModelInfo(trial, 'Polynomial Kernel Ridge', fit_kridge, 'kridge'),
-             ModelInfo(trial, 'RBF Support Vector', fit_svr, 'svr'),
-             ModelInfo(trial, 'Random Forest', fit_forest, 'rf') 
+    infos = [ModelInfo(trial, 'Partial Least Squares', None, 'pls'),
+             ModelInfo(trial, 'Lasso', None, 'lasso'),
+             ModelInfo(trial, 'Elastic Net', None, 'enet'),
+             ModelInfo(trial, 'Bayesian Ridge', None, 'bridge'),
+             ModelInfo(trial, 'Polynomial Kernel Ridge', None, 'kridge'),
+             ModelInfo(trial, 'RBF Support Vector', None, 'svr'),
+             ModelInfo(trial, 'Random Forest', None, 'rf') 
                ]
 
     folds = get_model(infos[0], X, y, None, False).folds
