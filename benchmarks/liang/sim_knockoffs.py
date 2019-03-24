@@ -39,6 +39,8 @@ def run(trial):
         # Draw a sample from it
         X_null[:,j], _ = conditional()
 
+        conditional = None
+
     for info, model in zip(infos, models):
         print('\tRunning ERK for {}'.format(info.name))
 
