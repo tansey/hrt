@@ -32,8 +32,7 @@ def run(trial):
     print('\tCreating knockoffs')
     X_null = np.zeros_like(X)
     for j in range(X.shape[1]):
-        if feature % 10 == 0:
-            print('\tFeature {}'.format(feature))
+        print('\tFeature {}'.format(j))
         # Load the conditional model for this feature
         conditional = get_conditional(trial, j)
 
