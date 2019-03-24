@@ -28,18 +28,24 @@ def run(trial):
     folds = get_model(infos[0], X, y, None, False).folds
     models = [get_model(info, X, y, folds, False) for info in infos]
 
+
     # Generate a null sample for each feature
-    print('\tCreating knockoffs')
-    X_null = np.zeros_like(X)
-    for j in range(X.shape[1]):
-        print('\tFeature {}'.format(j))
-        # Load the conditional model for this feature
-        conditional = get_conditional(trial, j)
+    X_null_path = 'data/{}/X_knockoffs.npy'.format(trial)
+    if os.path.exists(X_null_path):
+        X_null = np.load(X_null_path)
+    else:
+        print('\tCreating knockoffs')
+        X_null = np.zeros_like(X)
+        for j in range(X.shape[1]):
+            print('\tFeature {}'.format(j))
+            # Load the conditional model for this feature
+            conditional = get_conditional(trial, j)
 
-        # Draw a sample from it
-        X_null[:,j], _ = conditional()
+            # Draw a sample from it
+            X_null[:,j], _ = conditional()
 
-        conditional = None
+            conditional = None
+        np.save(X_null_path, X_null)
 
     for info, model in zip(infos, models):
         print('\tRunning ERK for {}'.format(info.name))

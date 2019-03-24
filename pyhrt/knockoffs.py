@@ -27,8 +27,8 @@ def empirical_risk_knockoffs(X, tstat_fn, fdr,
         # Get the test-statistic under the null
         knockoff_stats[j] = tstat_fn(X_temp)
 
-        if verbose > 1:
-            print('feature {}) t_true: {} t_null: {}'.format(j+1, t_true, t_null[j]))
+        if verbose:
+            print('\t\tfeature {}) t_true: {} t_null: {}'.format(j+1, t_true, knockoff_stats[j]))
 
     knockoff_stats = t_true - knockoff_stats
 
@@ -38,9 +38,16 @@ def empirical_risk_knockoffs(X, tstat_fn, fdr,
     selected = np.array([])
     for t in np.abs(knockoff_stats[order]):
         ratio = ((knockoff_stats <= -t).sum() + offset) / max(1,(knockoff_stats >= t).sum())
+        if verbose:
+            print('# <= {}: {}'.format(-t, (knockoff_stats <= -t).sum()))
+            print('# >= {}: {}'.format(t, (knockoff_stats >= t).sum()))
+            print('Ratio: {}'.format(ratio))
+            print()
         if ratio <= fdr:
             selected = np.arange(X.shape[1])[knockoff_stats >= t]
             break
+    if verbose:
+        print('Selected: {}'.format(selected))
 
     # Return the null samples if desired
     if save_nulls:
