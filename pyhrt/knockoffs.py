@@ -30,7 +30,7 @@ def empirical_risk_knockoffs(X, tstat_fn, fdr,
         if verbose:
             print('\t\tfeature {}) t_true: {} t_null: {}'.format(j+1, t_true, knockoff_stats[j]))
 
-    knockoff_stats = t_true - knockoff_stats
+    knockoff_stats -= t_true
 
     # Perform the knockoffs selection procedure
     offset = 0 if control_mfdr else 1

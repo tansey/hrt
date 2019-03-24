@@ -54,7 +54,7 @@ def run(trial):
         tstat = lambda X_target: ((y - model.predict(X_target))**2).mean()
 
         # Run the knockoffs procedure
-        selected, knockoff_stats = empirical_risk_knockoffs(X, tstat, fdr_threshold, X_null=X_null, verbose=True)
+        selected, knockoff_stats = empirical_risk_knockoffs(X, tstat, fdr_threshold, X_null=X_null, verbose=False)
 
         np.save('data/{}/{}_selected.npy'.format(trial, info.prefix), selected)
         np.save('data/{}/{}_knockoff_stats.npy'.format(trial, info.prefix), knockoff_stats)
