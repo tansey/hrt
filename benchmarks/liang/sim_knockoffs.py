@@ -2,7 +2,7 @@ import os
 import numpy as np
 import torch
 from sim_liang import load_or_create_dataset
-from sim_predictors import ModelInfo, get_model, get_conditional, CvModel
+from sim_predictors import ModelInfo, get_model, get_conditional, CvModel, PLSPredictor
 from pyhrt.knockoffs import empirical_risk_knockoffs
 
 
