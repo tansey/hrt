@@ -22,7 +22,7 @@ def empirical_risk_knockoffs(X, tstat_fn, fdr,
 
     for j in range(X.shape[1]):
         X_temp = np.copy(X)
-        X_temp[:,j], _ = X_null[:,j]
+        X_temp[:,j] = X_null[:,j]
 
         # Get the test-statistic under the null
         knockoff_stats[j] = tstat_fn(X_temp)
