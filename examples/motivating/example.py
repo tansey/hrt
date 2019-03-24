@@ -4,7 +4,7 @@ inflated errors.
 '''
 import numpy as np
 from collections import defaultdict
-from pyhrt2.utils import p_value_2sided
+from pyhrt.utils import p_value_2sided
 
 # Benjamini-hochberg
 def bh(p, fdr):
