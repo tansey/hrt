@@ -218,6 +218,13 @@ if __name__ == '__main__':
     plt.savefig('plots/predictors-r2-tpr.pdf', bbox_inches='tight')
     plt.close()
 
+    print('Plotting knockoffs r^2 vs power')
+    r2_scatter([knockoff_tpr[label] for label in labels],
+                 [r2_scores[label] for label in labels],
+                 labels)
+    plt.savefig('plots/knockoffs-r2-tpr.pdf', bbox_inches='tight')
+    plt.close()
+
 
     print('Plotting HRT power and FDR results vs lasso knockoffs')
     labels = labels + ['Lasso Knockoffs']
