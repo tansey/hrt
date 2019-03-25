@@ -237,7 +237,6 @@ if __name__ == '__main__':
     plt.close()
 
     print('Plotting ERK power and FDR results vs lasso knockoffs')
-    labels = labels + ['Lasso Knockoffs']
     results_plot([knockoff_tpr[label] for label in labels],
                  [knockoff_fdr[label] for label in labels],
                  [r2_scores[label] for label in labels],
