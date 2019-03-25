@@ -225,6 +225,14 @@ if __name__ == '__main__':
     plt.savefig('plots/knockoffs-r2-tpr.pdf', bbox_inches='tight')
     plt.close()
 
+    print('Plotting ERK power and FDR results vs lasso knockoffs')
+    results_plot([knockoff_tpr[label] for label in labels],
+                 [knockoff_fdr[label] for label in labels],
+                 [r2_scores[label] for label in labels],
+                 [label.replace(' ', '\n') for label in labels],
+                 fdr_threshold)
+    plt.savefig('plots/knockoffs-tpr-fdr.pdf', bbox_inches='tight')
+    plt.close()
 
     print('Plotting HRT power and FDR results vs lasso knockoffs')
     labels = labels + ['Lasso Knockoffs']
@@ -236,13 +244,5 @@ if __name__ == '__main__':
     plt.savefig('plots/predictors-tpr-fdr.pdf', bbox_inches='tight')
     plt.close()
 
-    print('Plotting ERK power and FDR results vs lasso knockoffs')
-    results_plot([knockoff_tpr[label] for label in labels],
-                 [knockoff_fdr[label] for label in labels],
-                 [r2_scores[label] for label in labels],
-                 [label.replace(' ', '\n') for label in labels],
-                 fdr_threshold)
-    plt.savefig('plots/knockoffs-tpr-fdr.pdf', bbox_inches='tight')
-    plt.close()
 
 
