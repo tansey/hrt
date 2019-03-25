@@ -199,7 +199,7 @@ if __name__ == '__main__':
             if not os.path.exists(selected_file):
                 print('Trial {} missing {} knockoffs. Skipping...'.format(trial, info.name))
             pred = np.zeros(P, dtype=bool)
-            pred[np.load(selected_file)] = True
+            pred[np.load(selected_file).astype(int)] = True
             knockoff_tpr[info.name][trial] = tpr(truth, pred)
             knockoff_fdr[info.name][trial] = fdr(truth, pred)
 
