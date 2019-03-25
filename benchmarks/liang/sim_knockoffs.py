@@ -48,6 +48,9 @@ def run(trial):
         np.save(X_null_path, X_null)
 
     for info, model in zip(infos, models):
+        if os.path.exists('data/{}/{}_selected.npy'.format(trial, info.prefix)):
+            print('\tERK results for {} exist. Skipping...'.format(info.name))
+            continue
         print('\tRunning ERK for {}'.format(info.name))
 
         # Create the model-specific test statistic (MSE)
