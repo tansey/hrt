@@ -28,6 +28,15 @@ def run(trial):
     folds = get_model(infos[0], X, y, None, False).folds
     models = [get_model(info, X, y, folds, False) for info in infos]
 
+    # Get the knockoffs for the OLS and neural net models
+    LINEAR_PATH = 'data/{}/cv_linear.pt'.format(trial)
+    NONLINEAR_PATH = 'data/{}/cv_nonlinear.pt'.format(trial)
+    ols_model = torch.load(LINEAR_PATH)
+    nn_model = torch.load(NONLINEAR_PATH)
+    models.append(ols_model)
+    models.append(nn_model)
+    infos.append(ModelInfo(trial, 'OLS', None, 'linear'))
+    infos.append(ModelInfo(trial, 'Neural Net', None, 'nonlinear'))
 
     # Generate a null sample for each feature
     X_null_path = 'data/{}/X_knockoffs.npy'.format(trial)
@@ -61,6 +70,8 @@ def run(trial):
 
         np.save('data/{}/{}_selected.npy'.format(trial, info.prefix), selected)
         np.save('data/{}/{}_knockoff_stats.npy'.format(trial, info.prefix), knockoff_stats)
+
+    
 
 
 if __name__ == '__main__':
