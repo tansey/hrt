@@ -198,6 +198,7 @@ if __name__ == '__main__':
             selected_file = 'data/{}/{}_selected.npy'.format(trial, info.prefix)
             if not os.path.exists(selected_file):
                 print('Trial {} missing {} knockoffs. Skipping...'.format(trial, info.name))
+                continue
             pred = np.zeros(P, dtype=bool)
             pred[np.load(selected_file).astype(int)] = True
             knockoff_tpr[info.name][trial] = tpr(truth, pred)
