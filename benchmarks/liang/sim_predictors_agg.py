@@ -192,8 +192,8 @@ if __name__ == '__main__':
         fdr_vals['Lasso Knockoffs'][trial] = fdr(truth, pred)
 
         # Load the empirical risk knockoff selections for all the models
-        infos.append(trial, 'OLS', None, 'linear')
-        infos.append(trial, 'Neural Net', None, 'nonlinear')
+        infos.append(ModelInfo(trial, 'OLS', None, 'linear'))
+        infos.append(ModelInfo(trial, 'Neural Net', None, 'nonlinear'))
         for info in infos:
             selected_file = 'data/{}/{}_selected.npy'.format(trial, info.prefix)
             if not os.path.exists(selected_file):
