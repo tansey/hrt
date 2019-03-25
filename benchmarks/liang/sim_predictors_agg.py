@@ -123,6 +123,8 @@ if __name__ == '__main__':
     fdr_vals = defaultdict(lambda: np.full(ntrials, np.nan))
     signal_p_values = defaultdict(list)
     r2_scores = defaultdict(list)
+    knockoff_tpr = defaultdict(lambda: np.full(ntrials, np.nan))
+    knockoff_fdr = defaultdict(lambda: np.full(ntrials, np.nan))
     for trial in range(ntrials):
         print(trial)
         TRUTH_PATH = 'data/{}/truth.csv'.format(trial)
@@ -182,13 +184,24 @@ if __name__ == '__main__':
         r2_scores['Neural Net'].append(nn_r2)
         r2_scores['OLS'].append(ols_r2)
 
-        # Load the discoveries for lasso knockoffs
+        # Load the discoveries for lasso coefficient magnitude knockoffs
         knockoffs = np.loadtxt('data/{}/knockoffs.csv'.format(trial)).astype(int)
         pred = np.zeros(P, dtype=bool)
         pred[knockoffs-1] = True
         tpr_vals['Lasso Knockoffs'][trial] = tpr(truth, pred)
         fdr_vals['Lasso Knockoffs'][trial] = fdr(truth, pred)
 
+        # Load the empirical risk knockoff selections for all the models
+        infos.append(trial, 'OLS', None, 'linear')
+        infos.append(trial, 'Neural Net', None, 'nonlinear')
+        for info in infos:
+            selected_file = 'data/{}/{}_selected.npy'.format(trial, info.prefix)
+            if not os.path.exists(selected_file):
+                print('Trial {} missing {} knockoffs. Skipping...'.format(trial, info.name))
+            pred = np.zeros(P, dtype=bool)
+            pred[np.load(selected_file)] = True
+            knockoff_tpr[info.name][trial] = tpr(truth, pred)
+            knockoff_fdr[info.name][trial] = fdr(truth, pred)
 
     print('Plotting signal p-values')
     labels = ['OLS'] + [info.name for info in infos] + ['Neural Net']
@@ -205,7 +218,7 @@ if __name__ == '__main__':
     plt.close()
 
 
-    print('Plotting power and FDR results vs lasso knockoffs')
+    print('Plotting HRT power and FDR results vs lasso knockoffs')
     labels = labels + ['Lasso Knockoffs']
     results_plot([tpr_vals[label] for label in labels],
                  [fdr_vals[label] for label in labels],
@@ -213,6 +226,16 @@ if __name__ == '__main__':
                  [label.replace(' ', '\n') for label in labels],
                  fdr_threshold)
     plt.savefig('plots/predictors-tpr-fdr.pdf', bbox_inches='tight')
+    plt.close()
+
+    print('Plotting ERK power and FDR results vs lasso knockoffs')
+    labels = labels + ['Lasso Knockoffs']
+    results_plot([knockoff_tpr[label] for label in labels],
+                 [knockoff_fdr[label] for label in labels],
+                 [r2_scores[label] for label in labels],
+                 [label.replace(' ', '\n') for label in labels],
+                 fdr_threshold)
+    plt.savefig('plots/knockoffs-tpr-fdr.pdf', bbox_inches='tight')
     plt.close()
 
 
