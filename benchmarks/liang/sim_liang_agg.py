@@ -58,12 +58,12 @@ def results_plot(tpr_vals, fdr_vals, names, fdr_threshold):
             rates.extend(t)
             rates.extend(f)
             labels.extend(['TPR']*len(t))
-            labels.extend(['FDR']*len(f))
+            labels.extend(['FDP']*len(f))
             models.extend([n]*(len(t)+len(f)))
         df = pd.DataFrame({'value': rates, 'Rate': labels, 'Model': models})
         ax = sns.boxplot(x='Model', y='value', hue='Rate', data=df)  # RUN PLOT
         plt.xlabel('', fontsize=18, weight='bold')
-        plt.ylabel('Power and FDR', fontsize=18, weight='bold')
+        plt.ylabel('Power and FDP', fontsize=18, weight='bold')
         plt.axhline(fdr_threshold, color='red', lw=2, ls='--')
         # ax.tick_params(labelsize=10)
         plt.legend(loc='upper right')
@@ -176,6 +176,65 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+'''
+*** Holdout Permutation model (100 trials) ***
+TPR: 31.72%
+FDR: 47.17%
+
+*** Calibrated HRT (linear) model (100 trials) ***
+TPR: 1.62%
+FDR: 24.23%
+
+*** Uncalibrated HRT model (100 trials) ***
+TPR: 6.42%
+FDR: 23.82%
+
+*** CV Permutation model (100 trials) ***
+TPR: 69.88%
+FDR: 69.30%
+
+*** Calibrated CV-HRT (linear) model (100 trials) ***
+TPR: 12.47%
+FDR: 13.57%
+
+*** Uncalibrated CV-HRT model (100 trials) ***
+TPR: 38.23%
+FDR: 18.46%
+
+*** Calibrated HRT (linear) model (100 trials) ***
+TPR: 0.85%
+FDR: 11.70%
+
+*** Calibrated HRT model (100 trials) ***
+TPR: 4.65%
+FDR: 18.89%
+
+*** Calibrated CV-HRT (linear) model (100 trials) ***
+TPR: 9.90%
+FDR: 12.54%
+
+*** Calibrated CV-HRT model (100 trials) ***
+TPR: 35.27%
+FDR: 14.48%
+
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

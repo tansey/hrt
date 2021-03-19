@@ -70,3 +70,5 @@ docs/_build/
 
 # debugging jupyter notebooks
 pyhrt/*.ipynb*
+examples/timing/experimental.py
+
